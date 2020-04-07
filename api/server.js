@@ -8,7 +8,7 @@ App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static('public'));
 
 // Sample GET route
-App.get('/api/data', (req, res) => res.json({
+App.get('/v1/weather', (req, res) => res.json({
   message: "Seems to work!",
 }));
 

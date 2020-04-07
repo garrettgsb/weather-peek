@@ -1,0 +1,11 @@
+{
+  "name": "weather-peek",
+  "version": "1.0.0",
+  "description": "A simple, conversationally-toned, conclusion-oriented weather API.",
+  "main": "server.js",
+  "author": "Garrett <garrettgsb@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "install-all": "yarn && cd api && yarn && cd ../ui && yarn"
+  }
+}

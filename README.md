@@ -1,46 +1,57 @@
-# React + Express No-Fluff Boilerplate
+# Weather Peek
 
-A boilerplate project for anyone interested in making a project that uses React and Express.
+## Usage
 
-This repository is a bootleg of @NimaBoscarino's [React Rails Boilerplate](https://github.com/NimaBoscarino/react-rails-boilerplate). It uses the same React app, but replaces the Rails server with an Express server.
+### Setup
 
-Note! This boilerplate has _no fluff_! That means that there's nothing set up for you to do authentication stuff, there's no Redux stuff, and there's no React Router stuff. On the Express end, there is no session storage or database connection.
+### Try it out
 
-The main important bit is that the React project has `proxy` set to `localhost:8080` in the `package.json` file, and that the Express app listens to port 8080 in `server.js`. Take a look!
+## Notes
 
-You can (and perhaps should) rename the directories `express-back-end` and `react-front-end` if you want-- The name doesn't matter.
+### Tech Stack - Why Express, Postgres, and React?
 
-## Running the projects
+I wanted to strike a balance between using tools that are professional, and tools that are the right size for the job. Also, I have a simple React-Express boilerplate that I made for Lighthouse students that I thought could save me some time :) Here's why I think each piece is a good fit:
 
-You need **TWO** terminal windows/tabs for this (or some other plan for running two Node processes).
+#### Express
 
-In one terminal, `cd` into `react-front-end`. Run `npm install` or `yarn` to install the dependencies. Then run `npm start` or `yarn start`, and go to `localhost:3000` in your browser.
+This API is really simple: It's just one endpoint, plus some auth routes. Express is very light on the boilerplate and has minimal indirection built in, and I thought that would make it easier to pick out what's important and interesting about the code.
 
-In the other terminal, `cd` into `express-back-end`. Run `npm install` or `yarn` to install the dependencies, then `npm start` or `yarn start` to launch the server.
+#### React
 
-In the browser, you can click on the button and see the data get loaded.
+If anything in this project is overkill, it's React.
 
-If this doesn't work, please message me!
+#### Postgres
 
-## Next steps
+Postgres is just a no-brainer for me. It's the DBMS that I've worked with the most, and it's supported by default by Heroku.
 
-From here, you can start working on your project!
+### Date
+The date you're submitting this.
+### Location of deployed application
+If applicable, please provide the url where we can find and interact with your running application.
+### Time spent
+How much time did you spend on the assignment? Normally, this is expressed in hours.
+### Assumptions made
 
-As soon as the dependencies are installed, your Express server can serve JSON and static assets (like images) in response to API calls from the React app. You can get started on developing your React app, routing plan, etc. right away! Any request that isn't handled by React is passed on to the Express server. That means that you can call a route like `/api/users` from React using `fetch`, `axios`, or something else, and Express will receive it as though they originated from the same app. For routing, best practice is to namespace all of your data routes to `/api`, so that they don't clash with other routing schemes, like React Router.
+**1. The example URL indicates the desired pattern**
 
-At some point, you'll likely want to install and configure a database driver for Postgres or MongoDB-- Refer to past projects for hints on how to do this.
+• `https://myapi.com/v1/weather` is the resource
+• `city` is a query string parameter
 
-And don't forget to update the README!
+**2. There are no other endpoints except for auth**
 
-## Example Projects
+**3. Users want simplified data**
 
-You might want to look at examples of projects that have used this boilerplate for hints on how to extend it. Here are a few:
+There is no reason to have this as an assumption other than it seems like cheating to just pass Open Weather Map's API data along without interacting with it in any way, so I decided that it would be fun to take the assumption that the users of Weather Peek want weather data in a simplified, conversationally-toned, conclusion-oriented format. It's kind of a goofy assumption, but I thought it would make the code more interesting.
 
-* [Later Cart](https://github.com/bonitac/later-cart)
-* [Buddi.io](https://github.com/Danny-Tran/buddi.io)
 
-If you'd like your project added to the list, please shoot me a message.
-
-## Contact
-
-Please contact me on Slack (@garrettgsb) or Nima at `nima@lighthouselabs.com` if you have any questions, requests, or feedback, or post an issue to this repo. If you are using the boilerplate, I'd love to hear from you as well!
+ ### Shortcuts/Compromises made
+If applicable. Did you do something that you feel could have been done better in a real-world application? Please let us know.
+### Stretch goals attempted
+If applicable, use this area to tell us what stretch goals you attempted. What went well? What do you wish you could have done better? If you didn't attempt any of the stretch goals, feel free to let us know why.
+### Instructions to run assignment locally
+If applicable, please provide us with the necessary instructions to run your solution.
+### What did you not include in your solution that you want us to know about?
+Were you short on time and not able to include something that you want us to know about? Please list it here so that we know that you considered it.
+### Other information about your submission that you feel it's important that we know if applicable.
+### Your feedback on this technical challenge
+Have feedback for how we could make this assignment better? Please let us know.
