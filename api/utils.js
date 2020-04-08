@@ -24,7 +24,7 @@ export function owmToWeatherPeek(owmReport) {
 
 
 
-function getWindinessFromSpeed(speed) {
+export function getWindinessFromSpeed(speed) {
   const speedMap = {
     'not': 2,
     'a little': 5,
@@ -39,7 +39,7 @@ function getWindinessFromSpeed(speed) {
   return getCategoryFromScalar(speed, speedMap, 'unrealistically');
 }
 
-function getCloudinessFromCoverage(coverage) {
+export function getCloudinessFromCoverage(coverage) {
   const cloudinessMap = {
     'not': 5,
     'barely': 10,
@@ -52,8 +52,8 @@ function getCloudinessFromCoverage(coverage) {
   return getCategoryFromScalar(coverage, cloudinessMap, 'irrationally');
 }
 
-function getCategoryFromScalar(scalar, categoryMap, fallback) {
+export function getCategoryFromScalar(scalar, categoryMap, fallback) {
   const categories = Object.entries(categoryMap).sort((a, b) => a[1] - b[1]); // 50% sure a[1] and b[1] need to be reversed
-  const category = (categories.find(([label, threshold]) => scalar < threshold) || [])[0];
+  const category = (categories.find(([label, threshold]) => scalar <= threshold) || [])[0];
   return category || fallback;
 }

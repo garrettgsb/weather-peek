@@ -7,11 +7,13 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "mocha": "^7.1.1",
     "node-fetch": "^2.6.0",
     "nodemon": "^1.18.7"
   }
