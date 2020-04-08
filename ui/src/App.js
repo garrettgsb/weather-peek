@@ -13,9 +13,9 @@ class App extends Component {
     fetch('/v1/weather')
     .then(response => response.json())
     .then((response) => {
-      console.log(response.message)
+            const { condition, expect, city, temperature, windSpeed } = response;
       this.setState({
-        message: response.message
+        message: `${condition}: Expect ${expect} in ${city}. It's ${temperature}ºC outside, and the wind is blowing at ${windSpeed} m/s.`,
       });
     })
   }

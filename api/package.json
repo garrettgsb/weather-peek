@@ -5,6 +5,7 @@
   "main": "server.js",
   "author": "garrettgsb",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "nodemon server.js"
   },

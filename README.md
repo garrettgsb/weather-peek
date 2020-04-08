@@ -43,6 +43,8 @@ How much time did you spend on the assignment? Normally, this is expressed in ho
 
 There is no reason to have this as an assumption other than it seems like cheating to just pass Open Weather Map's API data along without interacting with it in any way, so I decided that it would be fun to take the assumption that the users of Weather Peek want weather data in a simplified, conversationally-toned, conclusion-oriented format. It's kind of a goofy assumption, but I thought it would make the code more interesting.
 
+I will assume that users just care about how warm it is (in Celsius, not in Kelvin, lol), how windy it is, and the categorical description of [the Condition Codes defined here](https://openweathermap.org/weather-conditions).
+
 
  ### Shortcuts/Compromises made
 If applicable. Did you do something that you feel could have been done better in a real-world application? Please let us know.
