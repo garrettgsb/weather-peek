@@ -16,7 +16,7 @@ App.get('/v1/weather', async (req, res) => {
     res.json({ ...weatherPeekReport, city });
   } catch (err) {
     res.json({
-      error: "An error occurred... You'll have to just look outside.",
+      error: "An error occurred... You'll just have to go look outside.",
     });
   }
 });
