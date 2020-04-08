@@ -13,9 +13,9 @@ class App extends Component {
     fetch('/v1/weather')
     .then(response => response.json())
     .then((response) => {
-            const { condition, expect, city, temperature, windy, cloudy } = response;
+      const { condition, expect, city, temperature, windy, cloudy } = response;
       this.setState({
-        message: `${condition}: Expect ${expect} in ${city}. It's ${temperature}ºC outside, ${cloudy} cloudy, and ${windy} windy.`,
+        message: `${condition}: Expect ${expect} in ${city}. It's ${temperature} outside, ${cloudy} cloudy, and ${windy} windy.`,
       });
     })
   }

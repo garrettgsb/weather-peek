@@ -53,4 +53,19 @@ describe('utils', function() {
       assert(!(utils.getCloudinessFromCoverage(51) === 'noticeably'));
     });
   });
+
+  describe('getWarmnessFromTemperature', function() {
+    it("finds it super cold below 40ºC", function() {
+      assert(!(utils.getWarmnessFromTemperature(-39) === 'super cold'));
+      assert(utils.getWarmnessFromTemperature(-40) === 'super cold');
+      assert(utils.getWarmnessFromTemperature(-50) === 'super cold');
+    });
+    it("finds it super hot between 31-35ºC", function() {
+      assert(utils.getWarmnessFromTemperature(31) === 'super hot');
+      assert(utils.getWarmnessFromTemperature(35) === 'super hot');
+
+      assert(!(utils.getWarmnessFromTemperature(30) === 'super hot'));
+      assert(!(utils.getWarmnessFromTemperature(36) === 'super hot'));
+    });
+  });
 });

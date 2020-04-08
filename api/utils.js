@@ -13,16 +13,38 @@ export function getOwmReportForCity(city) {
 
 
 export function owmToWeatherPeek(owmReport) {
- return {
-    condition: owmReport.weather[0].main,
-    expect: owmReport.weather[0].description,
-    temperature: Math.floor(kelvinToCelsius(owmReport.main.temp)),
-    windy: getWindinessFromSpeed(owmReport.wind.speed),
-    cloudy: getCloudinessFromCoverage(owmReport.clouds.all),
-  };
+  try {
+    return {
+       condition: owmReport.weather[0].main,
+       expect: owmReport.weather[0].description,
+       temperature: getWarmnessFromTemperature(kelvinToCelsius(owmReport.main.temp)),
+       windy: getWindinessFromSpeed(owmReport.wind.speed),
+       cloudy: getCloudinessFromCoverage(owmReport.clouds.all),
+     };
+  } catch (err) {
+    console.error(err);
+    return {
+      error: 'Failed to create weather report',
+    };
+  }
 }
 
+export function getWarmnessFromTemperature(temperature) {
+  const tempMap = {
+    'super cold': -40,
+    'very cold': -20,
+    'cold': -10,
+    'kind of cold': 0,
+    'cool': 10,
+    'kind of cool': 15,
+    'warm': 20,
+    'hot': 25,
+    'very hot': 30,
+    'super hot': 35, // https://superhotgame.com/play-prototype/
+  };
 
+  return getCategoryFromScalar(temperature, tempMap, 'scorching');
+}
 
 export function getWindinessFromSpeed(speed) {
   const speedMap = {
