@@ -39,9 +39,9 @@ async function buildSchema(queries) {
       }
     }
     console.info('Done!');
+    pool.end();
   } catch (err) {
     console.error(err);
-  } finally {
     pool.end();
   }
 }
@@ -57,7 +57,7 @@ const createAccountsQuery = `
 const createTokensQuery = `
   CREATE TABLE tokens (
     id serial PRIMARY KEY,
-    account_id integer REFERENCES accounts,
+    account_id integer REFERENCES accounts ON DELETE CASCADE,
     token text NOT NULL
   );
 `;
@@ -65,7 +65,7 @@ const createTokensQuery = `
 const createCityFavoritesQuery = `
   CREATE TABLE city_favorites (
     id serial PRIMARY KEY,
-    account_id integer REFERENCES accounts,
+    account_id integer REFERENCES accounts ON DELETE CASCADE,
     city text NOT NULL
   );
 `;
