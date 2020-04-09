@@ -55,7 +55,26 @@ const dbHelpers = () => {
 
       if (!account) return { error: 'No account matches that username and password' };
       return account;
-    }
+    },
+
+    getAccountByToken: async (token) => {
+      const account = (await pool.query(`
+        SELECT
+          a.name,
+          t.token,
+          array_remove(array_agg(c.city), NULL) as cities
+        FROM accounts AS a
+        LEFT JOIN tokens AS t
+        ON t.account_id = a.id
+        LEFT JOIN city_favorites AS c
+        ON a.id = c.account_id
+        WHERE t.token=$1
+        GROUP BY t.token, a.name;
+      `, [token])).rows[0];
+
+      if (!account) return { error: 'Invalid token' };
+      return account;
+    },
   };
 };
 

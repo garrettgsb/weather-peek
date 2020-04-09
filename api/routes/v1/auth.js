@@ -14,4 +14,10 @@ router.post('/accounts', async (req, res) => {
   return res.json(account);
 });
 
+router.get('/accounts/:token', async (req, res) => {
+  const { token } = req.params;
+  const account = await dbHelpers.getAccountByToken(token);
+  return res.json(account);
+});
+
 export default router;

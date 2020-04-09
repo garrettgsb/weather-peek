@@ -43,7 +43,11 @@ describe('dbHelpers', function() {
       await dbHelpers.createAccount('foo', 'bar');
     });
 
-    it('find an account that exists when given valid credentials', async function() {
+    after(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+    });
+
+    it('finds an account that exists when given valid credentials', async function() {
       const account = await dbHelpers.getAccountByCredentials('foo', 'bar');
       assert(!account.error);
       assert(account.name);
@@ -58,6 +62,29 @@ describe('dbHelpers', function() {
     it('errors when passed the wrong password', async function() {
       const account = await dbHelpers.getAccountByCredentials('foo', 'hunter2');
       assert(account.error === 'No account matches that username and password');
+      assert(!account.name);
+    });
+  });
+
+  describe('getAccountByToken', function() {
+    let token;
+    before(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+      token = (await dbHelpers.createAccount('foo', 'bar')).token;
+    });
+    after(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+    });
+
+    it('finds an account that exists when given a valid token', async function() {
+      const account = await dbHelpers.getAccountByToken(token);
+      assert(!account.error);
+      assert(account.name === 'foo');
+    });
+
+    it('errors when passed a token that doesn\'t exist', async function() {
+      const account = await dbHelpers.getAccountByToken('boop');
+      assert(account.error === 'Invalid token');
       assert(!account.name);
     });
   });
