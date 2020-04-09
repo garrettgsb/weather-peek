@@ -52,16 +52,16 @@ I will assume that users just care about categorical descriptions of:
  ### Shortcuts/Compromises made
 If applicable. Did you do something that you feel could have been done better in a real-world application? Please let us know.
 
-* I didn't use PRs or feature branches; On a larger project, I would... Especially if I were working with others
-* I just used the node built-in `assert` for tests. Normally I would use something more verbose and versatile, like Chai.
-* If I expected this application to grow, there are opportunities to establish patterns that a future developer (who might be me) could extend:
-  - A `utils` directory containing reasonable groupings of utilities (e.g. "open weather map utils," "categorization utils," etc.)
-  - Routes divided into Express routers, and a relatively sparse `server.js`
-* Error handling is rudimentary. It does two important things: Stops the app from exploding, and informs the developer what is wrong. There are two things that come to mind that a more robust app would have:
-  - Handling different failure modes of the API: We just go "uh, something broke," but we could (possibly) handle errors differently based on what they are.
-  - Notifications/logging: If my API key is bad, I should probably receive an alert of some sort about that. If people keep getting "city not found" errors, it would be nice if I could discover post-hoc that it's because people keep inputting "北京," and the API doesn't know what that is-- You have to provide "Beijing." (That example is true by the way)
-* Using MD5 to hash passwords. Not good enough for real life, but it's built into Postgres and requires zero config, so it's a good fit for a quick iteration.
-* Accounts don't have to validate an email address or anything.
+* I didn't use PRs or feature branches. Eventually, it occurred to me that it would be pretty slick if I did a PR for each stretch feature (that would make it easy to look at each feature in isolation), but I thought of that too late.
+* I just used the Node built-in `assert` for tests. Normally I would use something more verbose and versatile, like Chai.
+* Error handling is rudimentary and ad hoc. It does two important things: Stops the app from exploding, and informs the developer what is wrong. However, a more robust app might do things like:
+  - Notifications/logging: If Open Weather Map decides that the API key is bad, I should probably be automatically yelled at about it. If people keep getting "city not found" errors, it would be nice if I could discover post-hoc that it's because people keep submitting "北京" instead of "Beijing." (That example is true by the way)
+  - Handling different failure modes: We mostly just let errors fly to the top and then go "uh, looks like something broke."
+  - Relatedly: More descriptive error messages, for the developer and the client.
+* Using MD5 to hash passwords. Not good enough for real life, but it's built into Postgres and requires zero config, so it's a good fit for quick iteration.
+* Accounts don't have to validate an email address or anything. You just post a name and password, and boom.
+* As is, there is no real benefit to having tokens in their own table. I was imagining this whole workflow for creating and revoking tokens for an account, but I decided it would be too much of a time sink to build.
+* Tests actually run against the "prod" database (or... whichever database Express connects to), which is pretty scary. Sorry to any real-world users called "foo"!
 
 ### Stretch goals attempted
 If applicable, use this area to tell us what stretch goals you attempted. What went well? What do you wish you could have done better? If you didn't attempt any of the stretch goals, feel free to let us know why.

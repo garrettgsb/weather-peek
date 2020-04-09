@@ -120,8 +120,8 @@ describe('dbHelpers', function() {
     beforeEach(async function() {
       await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
       token = (await dbHelpers.createAccount('foo', 'bar')).token;
-      const vancouver = await dbHelpers.addCityToAccount('Vancouver', token);
-      const moncton = await dbHelpers.addCityToAccount('Moncton', token);
+      await dbHelpers.addCityToAccount('Vancouver', token);
+      await dbHelpers.addCityToAccount('Moncton', token);
     });
     after(async function() {
       await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
@@ -132,7 +132,7 @@ describe('dbHelpers', function() {
       assert(account.cities.length === 2);
 
       const success = await dbHelpers.deleteCityFromAccount('Vancouver', token);
-      // assert(success);
+      assert(success);
 
       account = await dbHelpers.getAccountByToken(token);
       assert(account.cities.length === 1);

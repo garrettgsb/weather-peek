@@ -1,35 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      message: 'Click the button to load data!'
-    }
-  }
+const fetchData = () => {
+  fetch('/v1/weather')
+  .then(response => response.json())
+  .then((response) => {
+    const { condition, expect, city, temperature, windy, cloudy } = response;
+    this.setState({
+      message: `${condition}: Expect ${expect} in ${city}. It's ${temperature} outside, ${cloudy} cloudy, and ${windy} windy.`,
+    });
+  })
+}
 
-  fetchData = () => {
-    fetch('/v1/weather')
-    .then(response => response.json())
-    .then((response) => {
-      const { condition, expect, city, temperature, windy, cloudy } = response;
-      this.setState({
-        message: `${condition}: Expect ${expect} in ${city}. It's ${temperature} outside, ${cloudy} cloudy, and ${windy} windy.`,
-      });
-    })
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <h1>{ this.state.message }</h1>
-        <button onClick={this.fetchData} >
-          Fetch Data
-        </button>
-      </div>
-    );
-  }
+const App = () => {
+  const state = useState({ message: 'Click the button to load data!' });
+  return (
+    <div className="App">
+      <h1>{ state.message }</h1>
+      <button onClick={fetchData} >
+        Fetch Data
+      </button>
+    </div>
+  );
 }
 
 export default App;
