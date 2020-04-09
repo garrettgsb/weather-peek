@@ -4,13 +4,17 @@ dotenv.config();
 
 const kelvinToCelsius = kelvins => kelvins - 273.15;
 
+export async function getReportForCity(city) {
+  const owmReport = await getOwmReportForCity(city);
+  return owmToWeatherPeek(owmReport);
+}
+
 export function getOwmReportForCity(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${process.env.OWM_API_KEY}`;
   return fetch(url)
     .then(response => response.json())
     .catch(err => { console.error(err); });
 }
-
 
 export function owmToWeatherPeek(owmReport) {
   try {
@@ -28,6 +32,13 @@ export function owmToWeatherPeek(owmReport) {
     };
   }
 }
+
+export const cityNamesToReports = async (cities) =>
+  await Promise.all(
+    cities.map(
+      async city => ({...(await getReportForCity(city)), city })
+    )
+);
 
 export function getWarmnessFromTemperature(temperature) {
   const tempMap = {

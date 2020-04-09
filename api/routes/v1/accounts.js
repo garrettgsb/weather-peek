@@ -1,5 +1,6 @@
 import express from 'express';
 import dbHelpers from '../../dbHelpers.js';
+import { cityNamesToReports } from '../../utils.js';
 
 const router = express.Router();
 
@@ -43,6 +44,9 @@ router.get('/accounts/:token', async (req, res, next) => {
   try {
     const { token } = req.params;
     const account = await dbHelpers.getAccountByToken(token);
+
+    account.cities = await cityNamesToReports(account.cities);
+
     return res.json(account);
   } catch (err) {
     next(err);
@@ -50,11 +54,12 @@ router.get('/accounts/:token', async (req, res, next) => {
 });
 
 /* Add city-favorite to account */
-router.post('/accounts/:token/cities/:city', async (req, res, next) => {
+router.post('/accounts/:token/cities', async (req, res, next) => {
   try {
-    const { token, city } = req.params;
+    const { token } = req.params;
+    const { city } = req.body;
     const persistedCity = await dbHelpers.addCityToAccount(city, token);
-    res.json({ city: persistedCity });
+    res.json({ city: persistedCity, message: 'City added successfully' });
   } catch (err) {
     next(err);
   }
@@ -65,7 +70,8 @@ router.post('/accounts/:token/cities/:city/delete', async (req, res, next) => {
   try {
     const { token, city } = req.params;
     const success = await dbHelpers.deleteCityFromAccount(city, token);
-    res.json({ success });
+    if (!success) throw new Error('Could not delete city from account');
+    res.json({ message: 'City successfully deleted' });
   } catch (err) {
     next(err);
   }

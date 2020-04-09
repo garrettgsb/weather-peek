@@ -1,6 +1,6 @@
 import express from 'express';
 import accountsRouter from './accounts.js';
-import { getOwmReportForCity, owmToWeatherPeek } from '../../utils.js';
+import { getReportForCity } from '../../utils.js';
 
 const DEFAULT_CITY = 'Reykjavik';
 const v1Router = express.Router();
@@ -11,9 +11,8 @@ v1Router.get('/weather', async (req, res) => {
   try {
     const city = req.query.city || DEFAULT_CITY;
     const { token } = req.query;
-    const owmReport = await getOwmReportForCity(city);
-    const weatherPeekReport = owmToWeatherPeek(owmReport);
-    res.json({ ...weatherPeekReport, city });
+    const report = getReportForCity(city);
+    res.json({ ...report, city });
   } catch (err) {
     res.status(500).json({
       error: "An error occurred... You'll just have to go look outside.",
