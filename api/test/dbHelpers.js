@@ -55,13 +55,13 @@ describe('dbHelpers', function() {
 
     it('errors when passed a name that doesn\'t exist', async function() {
       const account = await dbHelpers.getAccountByCredentials('fuzz', 'bar');
-      assert(account.error === 'No account matches that username and password');
+      assert(account.error === 'No account matches that name and password');
       assert(!account.name);
     });
 
     it('errors when passed the wrong password', async function() {
       const account = await dbHelpers.getAccountByCredentials('foo', 'hunter2');
-      assert(account.error === 'No account matches that username and password');
+      assert(account.error === 'No account matches that name and password');
       assert(!account.name);
     });
   });
@@ -86,6 +86,57 @@ describe('dbHelpers', function() {
       const account = await dbHelpers.getAccountByToken('boop');
       assert(account.error === 'Invalid token');
       assert(!account.name);
+    });
+  });
+
+  describe('addCityToAccount', function() {
+    let token;
+    beforeEach(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+      token = (await dbHelpers.createAccount('foo', 'bar')).token;
+    });
+    after(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+    });
+
+    it('adds Vancouver and Moncton to the account\'s list of cities', async function() {
+      let account = await dbHelpers.getAccountByToken(token);
+      assert(account.cities.length === 0);
+
+      const vancouver = await dbHelpers.addCityToAccount('Vancouver', token);
+      assert(vancouver === 'Vancouver');
+      const moncton = await dbHelpers.addCityToAccount('Moncton', token);
+      assert(moncton === 'Moncton');
+
+      account = await dbHelpers.getAccountByToken(token);
+      assert(account.cities.length === 2);
+      assert(account.cities.includes('Vancouver') && account.cities.includes('Moncton'));
+    });
+  });
+
+
+  describe('deleteCityFromAccount', function() {
+    let token;
+    beforeEach(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+      token = (await dbHelpers.createAccount('foo', 'bar')).token;
+      const vancouver = await dbHelpers.addCityToAccount('Vancouver', token);
+      const moncton = await dbHelpers.addCityToAccount('Moncton', token);
+    });
+    after(async function() {
+      await pool.query('DELETE FROM accounts WHERE name=$1', ['foo']);
+    });
+
+    it('deletes Vancouver but keeps Moncton', async function() {
+      let account = await dbHelpers.getAccountByToken(token);
+      assert(account.cities.length === 2);
+
+      const success = await dbHelpers.deleteCityFromAccount('Vancouver', token);
+      // assert(success);
+
+      account = await dbHelpers.getAccountByToken(token);
+      assert(account.cities.length === 1);
+      assert(!account.cities.includes('Vancouver') && account.cities.includes('Moncton'));
     });
   });
 });

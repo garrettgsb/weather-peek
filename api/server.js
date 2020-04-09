@@ -11,6 +11,9 @@ App.use(Express.static('public'));
 
 App.use('/v1', v1Router);
 
+App.use((req, res) => { res.status(404).json({ error: 'Invalid route' }); });
+App.use((error, req, res) => res.status(500).json({ error: 'Something terrible happened' }));
+
 App.listen(PORT, () => {
   console.info(`Express seems to be listening on port ${PORT} so that's pretty good 👍`);
 });

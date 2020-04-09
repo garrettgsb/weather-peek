@@ -53,7 +53,7 @@ const dbHelpers = () => {
         GROUP BY a.id;
       `, [name, password])).rows[0];
 
-      if (!account) return { error: 'No account matches that username and password' };
+      if (!account) return { error: 'No account matches that name and password' };
       return account;
     },
 
@@ -74,6 +74,43 @@ const dbHelpers = () => {
 
       if (!account) return { error: 'Invalid token' };
       return account;
+    },
+
+    addCityToAccount: async (city, token) => {
+        const persistedCity = (await pool.query(`
+          INSERT INTO city_favorites
+          (city, account_id)
+          VALUES
+          ($1, (
+              SELECT a.id
+              FROM accounts AS a
+              JOIN tokens AS t
+              ON a.id=t.account_id
+              WHERE t.token=$2
+            )
+          )
+          RETURNING city;
+          `,
+          [city, token]
+        )).rows[0].city;
+
+        return persistedCity;
+    },
+
+    deleteCityFromAccount: async (token, city) => {
+      await pool.query(`
+        DELETE FROM city_favorites
+        WHERE city ilike $1
+        AND account_id=(
+          SELECT a.id
+          FROM accounts AS a
+          JOIN tokens AS t
+          ON a.id=t.account_id
+          WHERE t.token=$2
+        )`,
+        [token, city]
+      );
+      return true;
     },
   };
 };
