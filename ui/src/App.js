@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
+import useCityList from './hooks/useCityList.js';
 import './App.css';
 
-const fetchData = () => {
-  fetch('/v1/weather')
-  .then(response => response.json())
-  .then((response) => {
-    const { condition, expect, city, temperature, windy, cloudy } = response;
-    this.setState({
-      message: `${condition}: Expect ${expect} in ${city}. It's ${temperature} outside, ${cloudy} cloudy, and ${windy} windy.`,
-    });
-  })
-}
-
 const App = () => {
-  const state = useState({ message: 'Click the button to load data!' });
+  const token = localStorage.getItem('token');
+  const { cities, addCity } = useCityList(token);
   return (
     <div className="App">
-      <h1>{ state.message }</h1>
-      <button onClick={fetchData} >
+      <h1>There is a button</h1>
+      <button onClick={() => addCity()} >
         Fetch Data
       </button>
+      <p>{JSON.stringify(cities)}</p>
     </div>
   );
 }
