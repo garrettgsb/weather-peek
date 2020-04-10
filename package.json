@@ -6,6 +6,7 @@
   "author": "Garrett <garrettgsb@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "install-local": "cd api && yarn && cd ../ui && yarn && cd ../db && node setup.js",
     "postinstall": "cd api && yarn && cd ../ui && yarn && cd ../db && node setup.js noclean"
   },
   "dependencies": {

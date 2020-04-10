@@ -2,7 +2,77 @@
 
 # Usage
 
-## Setup
+## Setup (run locally)
+
+**Prerequisites:**
+
+* Node v13.12.0 - Known to work on this version, and known to fail on v8.10.0.
+* Yarn package manager - Try npm at your own risk :)
+* A running Postgres server with a user and database called `postgres` (should exist by default)
+
+Clone the repo:
+
+```
+git clone https://github.com/garrettgsb/weather-peek.git
+cd weather-peek
+```
+
+Consider your environment variables for  `db` and `api`. For local development, copying `.env.example` to `.env` should do the trick:
+
+```
+cp db/.env.example db/.env
+cp api/.env.example api/.env
+```
+
+Now, run `install-local` to install all dependencies (project, api, and ui, respectively) and set up the database:
+
+```
+yarn install-local
+```
+
+You should have everything set up to start the app now, but you may want to check to see that you have a Postgres database called `weather_peek`:
+
+```
+psql weather_peek
+\dt
+```
+
+Should see three tables: `accounts`, `city_favorites` and `tokens`.
+
+Now, you're ready to launch the app! The API server will serve the built version of the UI app from the home route, so that is the quickest way to see it in action:
+
+```
+cd api
+yarn start
+```
+
+When the server indicates that it's listening, you're ready to navigate to `localhost:8080` in your browser, and you should see the loaded React app. You can also try the weather endpoint to see the neat JSON it returns: `localhost:8080/v1/weather?city=Ankara`
+
+### For local front-end development
+
+The `ui` directory contains the source for the React app. If you are doing any code modifications in that app, you will probably find it more convenient to start Webpack Devserver in another terminal tab (or however you prefer to run multiple processes) and use `localhost:3000`. Webpack Devserver will proxy requests to `localhost:8080`, so API requests will behave the same as in the built version.
+
+From the `weather-peek` directory:
+
+```
+cd ui
+yarn start
+```
+
+Then, navigate to `localhost:3000` and you're on your bike. 🚴‍♀️
+
+### Building
+
+If you have made code changes to the `ui` app that you would like reflected in the built version served by `api`, you will need to rebuild the app. There's a React script for that, and the build directory will be moved to the right place automatically:
+
+From the `weather-peek` directory:
+
+```
+cd ui
+yarn build
+```
+
+----------------
 
 ## Try it out: API
 
@@ -10,14 +80,14 @@
 
 **Persistent accounts.** Using the account routes, you can create an account and authenticate with it to receive a **token**. Your **token** can be used to **save cities** that you're interested in, and get **reports** for all of them at once. Applications can treat **tokens** like API keys.
 
-**Categorical data.** This API doesn't return numbers-- Open Weather Map has that market cornered. Instead, we give you a plain English subjective description of the conditions. (Is this a good idea? Probably not, but it's fun)
+**Categorical data.** This API doesn't return numbers-- Open Weather Map already does a great job of that. Instead, we give you a plain English subjective description of the conditions. (Is this a good idea? Probably not, but it's fun)
 
 ### Routes: Summary
 
 * Get a weather report: **GET** `/v1/weather?city=Vancouver`
 * Create an account: **POST** `/v1/accounts` Body params (JSON): `name`, `password`
-* Authenticate: **POST** `/v1/authenticate` Body params (JSON): `name`, `password`
-* Get account: **GET** `/v1/accounts/:token`
+* Authenticate (trade a name and password for a token): **POST** `/v1/authenticate` Body params (JSON): `name`, `password`
+* Get an account by its token: **GET** `/v1/accounts/:token`
 * Add city to account: **POST** `/v1/accounts/:token/cities` Body params (JSON): `city`
 * Remove city from account: **POST** `/v1/accounts/:token/cities/:cities/delete`
 
@@ -129,6 +199,9 @@ Definitely the easiest part-- This took barely any time at all. Open Weather Map
 
 ### Instructions to run assignment locally
 If applicable, please provide us with the necessary instructions to run your solution.
+
+See: Usage > Setup in this document, but you should also be able to just [view the deployed version](https://weather-peek-gsb.herokuapp.com)
+
 ### What did you not include in your solution that you want us to know about?
 Were you short on time and not able to include something that you want us to know about? Please list it here so that we know that you considered it.
 ### Other information about your submission that you feel it's important that we know if applicable.

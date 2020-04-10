@@ -8,8 +8,8 @@ Summary
 
 * Get a weather report: **GET** `/v1/weather?city=Vancouver`
 * Create an account: **POST** `/v1/accounts` Body params (JSON): `name`, `password`
-* Authenticate: **POST** `/v1/authenticate` Body params (JSON): `name`, `password`
-* Get account: **GET** `/v1/accounts/:token`
+* Authenticate (trade a name and password for a token): **POST** `/v1/authenticate` Body params (JSON): `name`, `password`
+* Get an account by its token: **GET** `/v1/accounts/:token`
 * Add city to account: **POST** `/v1/accounts/:token/cities` Body params (JSON): `city`
 * Remove city from account: **POST** `/v1/accounts/:token/cities/:cities/delete`
 
