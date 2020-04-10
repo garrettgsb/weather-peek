@@ -6,7 +6,7 @@
 
 ## Try it out: API
 
-**JSON API endpoints.** This API reads and returns JSON, and can be used with cURL, Postman, Insomnia, or any application that knows how to make an HTTP request. To get started, you can try pointing your browser to [https://weather-peek-gsb.herokuapp.com/v1/weather?city=Vancouver](https://weather-peek-gsb.herokuapp.com/v1/weather?city=Vancouver)
+**JSON API endpoints.** This API reads and returns JSON, and can be used with cURL, Postman, Insomnia, or any application that knows how to make an HTTP request. To get started, you can try pointing your browser to [https://weather-peek-gsb.herokuapp.com/v1/weather?city=Vancouver](https://weather-peek-gsb.herokuapp.com/v1/weather?city=Vancouver) (or loalhost:8080 if running locally)
 
 **Persistent accounts.** Using the account routes, you can create an account and authenticate with it to receive a **token**. Your **token** can be used to **save cities** that you're interested in, and get **reports** for all of them at once. Applications can treat **tokens** like API keys.
 
@@ -26,6 +26,15 @@
 API behavior is described in detail in [API_ROUTES.md](API_ROUTES.md)
 
 ## Try it out: UI
+
+Navigate to [https://weather-peek-gsb.herokuapp.com](https://weather-peek-gsb.herokuapp.com) (or localhost:3000 if running locally) and play around with:
+
+* Creating a new account
+* Adding and removing cities
+* Logging into your account from another browser
+* Listening to the "Audio" for one city, or every city
+* Close that tab, restart your computer, go for a jog, open it back up-- Hey, you're still logged in!
+* Log out and repeat the steps above-- It's like you were never there
 
 # Notes
 

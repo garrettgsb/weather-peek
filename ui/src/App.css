@@ -1,5 +1,6 @@
 :root {
   font-size: 16px;
+  box-sizing: border-box;
   --accent: deepskyblue;
   --border-radius: 12px;
 }
@@ -13,12 +14,16 @@ body {
 }
 
 main.app {
-  background: #eee;
-  width: 1280px;
-  min-height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  max-width: 1280px;
+  width: 100vw;
+  min-height: 100vh;
+
+  background: #eee;
+  padding: 0.5rem;
 }
 
 .logged-in {

@@ -24,7 +24,7 @@ const CitiesList = ({ cities, removeCity }) => (
             </main>
             <footer>
               <button onClick={() => say(summary)}>Audio</button>
-              <button onClick={() => removeCity(city.city)}>Delete</button>
+              <button onClick={() => removeCity(city.city)}>Dismiss</button>
             </footer>
           </article>
         );
