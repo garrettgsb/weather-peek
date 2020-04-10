@@ -36,7 +36,7 @@ describe('utils', function() {
       assert(!(utils.getWindinessFromSpeed(41) === 'extremely'));
     });
     it('returns a catch-all value if the speed is ridiculous', function() {
-      assert(utils.getWindinessFromSpeed(80000) === 'unrealistically');
+      assert(utils.getWindinessFromSpeed(80000) === 'apocalyptically');
     });
   });
 
@@ -60,12 +60,16 @@ describe('utils', function() {
       assert(utils.getWarmnessFromTemperature(-40) === 'super cold');
       assert(utils.getWarmnessFromTemperature(-50) === 'super cold');
     });
-    it("finds it super hot between 31-35ºC", function() {
-      assert(utils.getWarmnessFromTemperature(31) === 'super hot');
-      assert(utils.getWarmnessFromTemperature(35) === 'super hot');
+    it("finds it very hot between 31-35ºC", function() {
+      assert(utils.getWarmnessFromTemperature(31) === 'very hot');
+      assert(utils.getWarmnessFromTemperature(35) === 'very hot');
 
-      assert(!(utils.getWarmnessFromTemperature(30) === 'super hot'));
-      assert(!(utils.getWarmnessFromTemperature(36) === 'super hot'));
+      assert(!(utils.getWarmnessFromTemperature(30) === 'very hot'));
+      assert(!(utils.getWarmnessFromTemperature(36) === 'very hot'));
+    });
+    it("finds it super hot at ridiculous temperatures", function() {
+      assert(utils.getWarmnessFromTemperature(40) === 'super hot');
+      assert(utils.getWarmnessFromTemperature(400) === 'super hot');
     });
   });
 });

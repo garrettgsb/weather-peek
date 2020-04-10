@@ -49,12 +49,12 @@ export function getWarmnessFromTemperature(temperature) {
     'cool': 10,
     'kind of cool': 15,
     'warm': 20,
-    'hot': 25,
-    'very hot': 30,
-    'super hot': 35, // https://superhotgame.com/play-prototype/
+    'hot': 30,
+    'very hot': 35,
+    'super hot': Infinity, // https://superhotgame.com/play-prototype/
   };
 
-  return getCategoryFromScalar(temperature, tempMap, 'scorching');
+  return getCategoryFromScalar(temperature, tempMap);
 }
 
 export function getWindinessFromSpeed(speed) {
@@ -66,10 +66,10 @@ export function getWindinessFromSpeed(speed) {
     'extremely': 40,
     'ridiculously': 80,
     'catastrophically': 140,
-    'apocalyptically': 200,
+    'apocalyptically': Infinity,
   };
 
-  return getCategoryFromScalar(speed, speedMap, 'unrealistically');
+  return getCategoryFromScalar(speed, speedMap);
 }
 
 export function getCloudinessFromCoverage(coverage) {
@@ -79,10 +79,10 @@ export function getCloudinessFromCoverage(coverage) {
     'a little': 25,
     'noticeably': 50,
     'very': 80,
-    'completely': 100,
+    'completely': Infinity,
   };
 
-  return getCategoryFromScalar(coverage, cloudinessMap, 'irrationally');
+  return getCategoryFromScalar(coverage, cloudinessMap);
 }
 
 export function getCategoryFromScalar(scalar, categoryMap, fallback) {
