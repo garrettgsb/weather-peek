@@ -12,13 +12,7 @@ const apiPost = async (path, body) => {
 
 export const getWeatherForCity = async (cityName) => {
   const queryStringParam = cityName ? `?city=${cityName}` : '';
-  const response = await apiGet(`/v1/weather${queryStringParam}`);
-  console.log(response);
-  const { condition, expect, city, temperature, windy, cloudy } = response;
-  return {
-    ...response,
-    message: `${condition}: Expect ${expect} in ${city}. It's ${temperature} outside, ${cloudy} cloudy, and ${windy} windy.`,
-  };
+  return await apiGet(`/v1/weather${queryStringParam}`);
 }
 
 export const getCitiesForAccount = async (token) => (await apiGet(`/v1/accounts/${token}`)).cities;

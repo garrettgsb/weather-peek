@@ -1,33 +1,85 @@
-.App {
-  text-align: center;
+:root {
+  font-size: 16px;
+  --accent: deepskyblue;
+  --border-radius: 12px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background: #ddd;
+  width: 100vw;
 }
 
-.App-link {
-  color: #61dafb;
+main.app {
+  background: #eee;
+  width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.cities-list {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  background: #f0f0f0;
+}
+
+.city-card {
+  width: 15rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+  animation: fly-in-left 1s running;
+}
+
+.city-card > main {
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+.city-card > footer {
+  flex-grow: 1;
+  padding: 1rem;
+
+  border: 1px solid #eee;
+}
+
+.city-card h2, .city-card h3 {
+  text-align: center;
+}
+
+@keyframes fly-in-left {
+  0% {
+    transform: translateX(-150vw);
+  } 100% {
+    transform: translateX(0);
   }
-  to {
-    transform: rotate(360deg);
-  }
+}
+
+
+button {
+  margin: 0.25rem;
+  padding: 0.25rem 0.5rem;
+
+  border: none;
+  border-radius: var(--border-radius);
+  background: var(--accent);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  filter: brightness(100%);
+  transition: 200ms;
+}
+
+button:hover {
+  filter: brightness(120%);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }

@@ -3,28 +3,31 @@ import { getWeatherForCity, getCitiesForAccount, addCityToAccount, removeCityFro
 
 const useCityList = (token) => {
   const [cities, setCities] = useState([]);
+  const [ error, setError ] = useState(null);
+
+  // Load cities for account if user has a token
   useEffect(
     () => { (async () => { if (token) setCities(await getCitiesForAccount(token)) })() },
     [token]
   );
+
   const addCity = async (city) => {
-    if (cities.find(_city => _city.name === city)) return;
+    if (!city || cities.find(_city => _city.city === city)) return;
     const cityWeather = await getWeatherForCity(city)
+    if (cityWeather.error) return setError(cityWeather.error);
+
     setCities(prev => [...prev, cityWeather]);
-    if (token) {
-      addCityToAccount(city, token);
-    }
+    if (token) addCityToAccount(city, token);
   }
 
   const removeCity = async (cityName) => {
-    setCities(prev => [...prev, cities.filter(city => city.name === cityName)]);
-    if (token) {
-      removeCityFromAccount(cityName, token);
-    }
+    setCities(prev => prev.filter(city => city.city !== cityName));
+    if (token) removeCityFromAccount(cityName, token);
   }
 
   return {
     cities,
+    error,
     addCity,
     removeCity,
   }

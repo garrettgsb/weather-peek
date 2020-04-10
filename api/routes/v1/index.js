@@ -10,8 +10,7 @@ v1Router.use(accountsRouter);
 v1Router.get('/weather', async (req, res) => {
   try {
     const city = req.query.city || DEFAULT_CITY;
-    const { token } = req.query;
-    const report = getReportForCity(city);
+    const report = await getReportForCity(city);
     res.json({ ...report, city });
   } catch (err) {
     res.status(500).json({
