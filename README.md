@@ -1,5 +1,31 @@
 # Weather Peek
 
+A simple, conversationally-toned, conclusion-oriented weather API.
+
+Try it live at [https://weather-peek-gsb.herokuapp.com](https://weather-peek-gsb.herokuapp.com)
+
+# Table of Contents
+
+* [Usage](#usage)
+  - [Setup (run locally)](#setup-run-locally)
+  - [Try it out: API](#try-it-out-api)
+    * [Routes: Summary](#routes-summary)
+    * [Routes: Details](#routes-details)
+  - [Try it out: UI](#try-it-out-ui)
+* [Notes](#notes)
+  - [Tech Stack](#tech-stack---why-express-postgres-and-react)
+  - [Date](#date)
+  - [Location of Deployed Application](#location-of-deployed-application)
+  - [Time Spent](#time-spent)
+  - [Assumptions Made](#assumptions-made)
+  - [Shortcuts/Compromises Made](#shortcutscompromises-made)
+  - [Stretch Goals Attempted](#stretch-goals-attempted)
+  - [Instructions to Run Assignment Locally](#instructions-to-run-assignment-locally)
+  - [What Did You Not Include?](#what-did-you-not-include-in-your-solution-that-you-want-us-to-know-about)
+  - [Other Information](#what-did-you-not-include-in-your-solution-that-you-want-us-to-know-about)
+  - [Feedback](#your-feedback-on-this-technical-challenge)
+
+
 # Usage
 
 ## Setup (run locally)
