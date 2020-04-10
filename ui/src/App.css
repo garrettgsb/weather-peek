@@ -43,6 +43,10 @@ main.app {
   margin: 0.5rem;
 }
 
+.cities-list-container {
+  height: 100%;
+  width: 100%;
+}
 .cities-list {
   display: flex;
   flex-wrap: wrap;
