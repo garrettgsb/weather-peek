@@ -21,6 +21,28 @@ main.app {
   flex-direction: column;
 }
 
+.logged-in {
+  margin: 1rem;
+}
+
+.authenticate {
+  margin: 1rem;
+  padding: 1rem;
+
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+}
+
+.authenticate form {
+  display: flex;
+  flex-direction: column;
+}
+
+.authenticate form > * {
+  margin: 0.5rem;
+}
+
 .cities-list {
   display: flex;
   flex-wrap: wrap;
@@ -82,4 +104,16 @@ button {
 button:hover {
   filter: brightness(120%);
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+input[type=text], input[type=password] {
+  border: 1px solid #eee;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+p {
+  margin: 0.2rem;
 }

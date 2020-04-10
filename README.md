@@ -43,7 +43,7 @@ How much time did you spend on the assignment? Normally, this is expressed in ho
 
 There is no reason to have this as an assumption other than it seems like cheating to just pass Open Weather Map's API data along without interacting with it in any way, so I decided that it would be fun to take the assumption that the users of Weather Peek want weather data in a simplified, conversationally-toned, conclusion-oriented format. It's kind of a goofy assumption, but I thought it would make the code more interesting.
 
-I will assume that users just care about categorical descriptions of:
+I will assume that this API is for users who are in too much of a hurry for numbers, and just care about categorical descriptions of:
   * How warm it is (in Celsius, not in Kelvin, lol)
   * How windy it is
   * How cloudy it is

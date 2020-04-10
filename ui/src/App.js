@@ -1,28 +1,35 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useCityList from './hooks/useCityList.js';
+import Authenticate from './components/Authenticate.js';
 import CitiesList from './components/CitiesList.js';
+import { getAccount } from './api.js';
 import './App.css';
 
 const App = () => {
   const [token, _setToken] = useState(localStorage.getItem('token'));
+  const [account, setAccount] = useState(null);
   const setToken = (token) => {
     localStorage.setItem('token', token);
     _setToken(token);
   }
 
+  useEffect(() => {
+    if (token) {
+      (async () => setAccount(await getAccount(token)))();
+    } else {
+      setAccount(null);
+    }
+  }, [token]);
+
   const cityInputRef = useRef();
-  const { cities, addCity, removeCity } = useCityList(token);
+  const { cities, addCity, removeCity, persistCityList } = useCityList(token);
 
   return (
     <main className="app">
       <h1>Weather Peek</h1>
-      <p>A weather dashboard for folks who can't be bothered with things like how many degrees it is out.</p>
-      <button onClick={() => setToken('f16bccbd-192a-4bae-90a9-bd4bb510746e')} >
-        Token 1
-      </button>
-      <button onClick={() => setToken('8970ea45-bd4e-4184-ab39-493d6da80979')} >
-        Token 2
-      </button>
+      <p>A weather dashboard for folks who can't be bothered with pesky numbers.</p>
+      <p>Create a list of cities. Make an account to save your list and view it on any device.</p>
+      <Authenticate account={account} setAccount={setAccount} setToken={setToken} persistCityList={persistCityList} />
       <form onSubmit={e => { e.preventDefault(); addCity(cityInputRef.current ? cityInputRef.current.value : null) }}>
         <input ref={cityInputRef} type='text' placeholder='Enter city name...' />
         <button type='submit'>Get weather for city</button>

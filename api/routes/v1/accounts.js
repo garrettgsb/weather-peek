@@ -12,10 +12,6 @@ router.post('/authenticate', async (req, res, next) => {
       return res.json({ error: 'Must provide name and password fields to create an account.' });
     }
     const account = await dbHelpers.getAccountByCredentials(name, password);
-    if (account.tokens.length) {
-      return res.json({ token: account.tokens[0] });
-    }
-
     return res.json(account);
   } catch (err) {
     next(err);
