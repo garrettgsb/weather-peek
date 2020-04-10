@@ -6,7 +6,7 @@
   "author": "Garrett <garrettgsb@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "install-all": "yarn && cd api && yarn && cd ../ui && yarn"
+    "postinstall": "cd api && yarn && cd ../ui && yarn"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
