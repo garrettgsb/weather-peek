@@ -33,10 +33,10 @@ export function owmToWeatherPeek(owmReport) {
   }
 }
 
-export const cityNamesToReports = async (cities) =>
+export const cityNamesToReports = async (cities=[]) =>
   await Promise.all(
     cities.map(
-      async city => ({...(await getReportForCity(city)), city })
+      async city => ({...await getReportForCity(city), city })
     )
 );
 

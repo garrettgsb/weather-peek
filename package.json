@@ -6,7 +6,7 @@
   "author": "Garrett <garrettgsb@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "postinstall": "cd api && yarn && cd ../ui && yarn"
+    "postinstall": "cd api && yarn && cd ../ui && yarn && cd ../db && node setup.js noclean"
   },
   "dependencies": {
     "dotenv": "^8.2.0",

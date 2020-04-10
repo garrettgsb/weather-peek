@@ -2,7 +2,8 @@ import pg from 'pg';
 import uuid from 'uuid';
 
 const dbHelpers = () => {
-  const pool = new pg.Pool();
+  const dbParams = process.env.DATABASE_URL ? { connectionString: process.env.DATABASE_URL } : undefined;
+  const pool = new pg.Pool(dbParams);
   pool.connect();
   return {
     createAccount: async (name, password) => {

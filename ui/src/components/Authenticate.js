@@ -3,7 +3,6 @@ import { signup, login } from '../api.js';
 
 const Authenticate = ({ account, setAccount, setToken, persistCityList }) => {
   const [error, setError] = useState(null);
-  const [name, setName] = useState(null);
   const nameRef = useRef();
   const passwordRef = useRef();
   const newAccountRef = useRef();

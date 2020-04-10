@@ -2,6 +2,7 @@ const { Pool } = require('pg');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const dbParams = process.env.DATABASE_URL ? { connectionString: process.env.DATABASE_URL } : undefined;
 
 async function blankSlate() {
   let setupPool;
@@ -24,8 +25,11 @@ async function blankSlate() {
 
 
 async function buildSchema(queries) {
-  await blankSlate();
-  const pool = await new Pool();
+  if (!process.argv.includes('noclean')) {
+    await blankSlate();
+  }
+
+  const pool = await new Pool(dbParams);
 
   try {
     for (const queryObj of queries) {
@@ -40,14 +44,16 @@ async function buildSchema(queries) {
     }
     console.info('Done!');
     pool.end();
+    process.exit();
   } catch (err) {
     console.error(err);
     pool.end();
+    process.exit();
   }
 }
 
 const createAccountsQuery = `
-  CREATE TABLE accounts (
+  CREATE TABLE IF NOT EXISTS accounts (
     id serial PRIMARY KEY,
     name text UNIQUE NOT NULL,
     password_digest text NOT NULL
@@ -55,7 +61,7 @@ const createAccountsQuery = `
 `;
 
 const createTokensQuery = `
-  CREATE TABLE tokens (
+  CREATE TABLE IF NOT EXISTS tokens (
     id serial PRIMARY KEY,
     account_id integer REFERENCES accounts ON DELETE CASCADE,
     token text NOT NULL
@@ -63,7 +69,7 @@ const createTokensQuery = `
 `;
 
 const createCityFavoritesQuery = `
-  CREATE TABLE city_favorites (
+  CREATE TABLE IF NOT EXISTS city_favorites (
     id serial PRIMARY KEY,
     account_id integer REFERENCES accounts ON DELETE CASCADE,
     city text NOT NULL
