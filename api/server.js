@@ -4,7 +4,7 @@ import path from 'path';
 import v1Router from './routes/v1/index.js';
 
 const App = Express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 App.use(BodyParser.urlencoded({ extended: false }));
 App.use(BodyParser.json());
