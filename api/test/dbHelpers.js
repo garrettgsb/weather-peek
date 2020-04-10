@@ -138,5 +138,18 @@ describe('dbHelpers', function() {
       assert(account.cities.length === 1);
       assert(!account.cities.includes('Vancouver') && account.cities.includes('Moncton'));
     });
+
+    it('prevents duplicate cities for same account', async function() {
+      let account = await dbHelpers.getAccountByToken(token);
+      assert(account.cities.length === 2);
+
+      await dbHelpers.addCityToAccount('Vancouver', token);
+      await dbHelpers.addCityToAccount('Vancouver', token);
+      await dbHelpers.addCityToAccount('Moncton', token);
+      await dbHelpers.addCityToAccount('Moncton', token);
+
+      account = await dbHelpers.getAccountByToken(token);
+      assert(account.cities.length === 2);
+    });
   });
 });

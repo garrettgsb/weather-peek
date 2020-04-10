@@ -9,7 +9,7 @@ router.post('/authenticate', async (req, res, next) => {
   try {
     const { name, password } = req.body;
     if (!name || !password) {
-      return res.json({ error: 'Must provide name and password fields to create an account.' });
+      return res.json({ error: 'Must provide name and password fields to authenticate.' });
     }
     const account = await dbHelpers.getAccountByCredentials(name, password);
     return res.json(account);
@@ -54,8 +54,15 @@ router.post('/accounts/:token/cities', async (req, res, next) => {
   try {
     const { token } = req.params;
     const { city } = req.body;
+
+    if (!city) res.status(400).json({ error: 'Must provide city name in request body'});
+
     const persistedCity = await dbHelpers.addCityToAccount(city, token);
-    res.json({ city: persistedCity, message: 'City added successfully' });
+    if (persistedCity) {
+      res.json({ city: persistedCity, message: 'City added successfully' });
+    } else {
+      res.json({ message: 'City not added. Does it already exist on this account?' });
+    }
   } catch (err) {
     next(err);
   }
@@ -67,7 +74,7 @@ router.post('/accounts/:token/cities/:city/delete', async (req, res, next) => {
     const { token, city } = req.params;
     const success = await dbHelpers.deleteCityFromAccount(city, token);
     if (!success) throw new Error('Could not delete city from account');
-    res.json({ message: 'City successfully deleted' });
+    res.json({ message: 'City deleted successfully' });
   } catch (err) {
     next(err);
   }

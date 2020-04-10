@@ -78,11 +78,21 @@ const dbHelpers = () => {
     },
 
     addCityToAccount: async (city, token) => {
-        const persistedCity = (await pool.query(`
+        // TODO: Find a way to not have to do the subquery twice
+        const result = (await pool.query(`
           INSERT INTO city_favorites
           (city, account_id)
-          VALUES
-          ($1, (
+          SELECT $1, (
+            SELECT a.id
+            FROM accounts AS a
+            JOIN tokens AS t
+            ON a.id=t.account_id
+            WHERE t.token=$2
+          )
+          WHERE NOT EXISTS (
+            SELECT id
+            FROM city_favorites
+            WHERE city=$1 AND account_id=(
               SELECT a.id
               FROM accounts AS a
               JOIN tokens AS t
@@ -93,9 +103,9 @@ const dbHelpers = () => {
           RETURNING city;
           `,
           [city, token]
-        )).rows[0].city;
+        )).rows[0];
 
-        return persistedCity;
+        return result ? result.city : false;
     },
 
     deleteCityFromAccount: async (token, city) => {
