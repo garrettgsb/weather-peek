@@ -1,12 +1,33 @@
 # Weather Peek
 
-## Usage
+# Usage
 
-### Setup
+## Setup
 
-### Try it out
+## Try it out: API
 
-## Notes
+**JSON API endpoints.** This API reads and returns JSON, and can be used with cURL, Postman, Insomnia, or any application that knows how to make an HTTP request. To get started, you can try pointing your browser to [https://weather-peek-gsb.herokuapp.com/v1/weather?city=Vancouver](https://weather-peek-gsb.herokuapp.com/v1/weather?city=Vancouver)
+
+**Persistent accounts.** Using the account routes, you can create an account and authenticate with it to receive a **token**. Your **token** can be used to **save cities** that you're interested in, and get **reports** for all of them at once. Applications can treat **tokens** like API keys.
+
+**Categorical data.** This API doesn't return numbers-- Open Weather Map has that market cornered. Instead, we give you a plain English subjective description of the conditions. (Is this a good idea? Probably not, but it's fun)
+
+### Routes: Summary
+
+* Get a weather report: **GET** `/v1/weather?city=Vancouver`
+* Create an account: **POST** `/v1/accounts` Body params (JSON): `name`, `password`
+* Authenticate: **POST** `/v1/authenticate` Body params (JSON): `name`, `password`
+* Get account: **GET** `/v1/accounts/:token`
+* Add city to account: **POST** `/v1/accounts/:token/cities` Body params (JSON): `city`
+* Remove city from account: **POST** `/v1/accounts/:token/cities/:cities/delete`
+
+### Routes: Details
+
+API behavior is described in detail in [API_ROUTES.md](API_ROUTES.md)
+
+## Try it out: UI
+
+# Notes
 
 ### Tech Stack - Why Express, Postgres, and React?
 
@@ -18,11 +39,11 @@ This API is really simple: It's just one endpoint, plus some auth routes. Expres
 
 #### React
 
-If anything in this project is overkill, it's React.
+If anything in this project is overkill, it's React. React is a lucrative choice for rapidly prototyping a state-driven UI though, and allowed me to move faster and stay relatively organized.
 
 #### Postgres
 
-Postgres is just a no-brainer for me. It's the DBMS that I've worked with the most, and it's supported by default by Heroku.
+Postgres is a no-brainer for me. It's the DBMS that I've worked with the most, and it's supported by default by Heroku.
 
 ### Date
 The date you're submitting this.
@@ -30,18 +51,25 @@ The date you're submitting this.
 If applicable, please provide the url where we can find and interact with your running application.
 ### Time spent
 How much time did you spend on the assignment? Normally, this is expressed in hours.
+
+* Initial `/weather` endpoint + Open Weather Map integration: About an hour
+* Set up database and API interactions for auth: 5 hours
+* Build React UI: 4 hours
+* Deploy to Heroku: 2 hours
+
 ### Assumptions made
 
 **1. The example URL indicates the desired pattern**
 
-• `https://myapi.com/v1/weather` is the resource
-• `city` is a query string parameter
+* All API routes should be namespaced under `/v1`
+* `https://myapi.com/v1/weather` is the resource
+* `city` is a query string parameter
 
-**2. There are no other endpoints except for auth**
+**2. No other endpoints are required, except for maybe auth**
 
 **3. Users want simplified data**
 
-There is no reason to have this as an assumption other than it seems like cheating to just pass Open Weather Map's API data along without interacting with it in any way, so I decided that it would be fun to take the assumption that the users of Weather Peek want weather data in a simplified, conversationally-toned, conclusion-oriented format. It's kind of a goofy assumption, but I thought it would make the code more interesting.
+There is no reason to have this as an assumption other than it seems like cheating to just pass Open Weather Map's API data along without interacting with it in any way, so I decided that it would be fun to take the assumption that instead of wanting to know things like the temperature in degrees or the cloud coverage as a percentage, the users of Weather Peek want weather data categorized in a simplified, conversationally-toned, conclusion-oriented format. It's kind of a goofy assumption, but I thought it would make the code more interesting (in retrospect: the code did not need to be contrived to be more interesting).
 
 I will assume that this API is for users who are in too much of a hurry for numbers, and just care about categorical descriptions of:
   * How warm it is (in Celsius, not in Kelvin, lol)
@@ -52,19 +80,44 @@ I will assume that this API is for users who are in too much of a hurry for numb
  ### Shortcuts/Compromises made
 If applicable. Did you do something that you feel could have been done better in a real-world application? Please let us know.
 
-* I didn't use PRs or feature branches. Eventually, it occurred to me that it would be pretty slick if I did a PR for each stretch feature (that would make it easy to look at each feature in isolation), but I thought of that too late.
+* I didn't use PRs or feature branches. Eventually, it occurred to me that it would be pretty slick if I had done a PR for each stretch feature (that would make it easy to look at each feature in isolation), but I thought of that too late.
 * I just used the Node built-in `assert` for tests. Normally I would use something more verbose and versatile, like Chai.
 * Error handling is rudimentary and ad hoc. It does two important things: Stops the app from exploding, and informs the developer what is wrong. However, a more robust app might do things like:
-  - Notifications/logging: If Open Weather Map decides that the API key is bad, I should probably be automatically yelled at about it. If people keep getting "city not found" errors, it would be nice if I could discover post-hoc that it's because people keep submitting "北京" instead of "Beijing." (That example is true by the way)
+  - Notifications/logging: If Open Weather Map decides that the API key is bad, I should probably be automatically yelled at about it. If people keep getting "city not found" errors, it would be nice if I could discover post-hoc that it's because people keep submitting "北京" instead of "Beijing." (That example is true, by the way)
   - Handling different failure modes: We mostly just let errors fly to the top and then go "uh, looks like something broke."
   - Relatedly: More descriptive error messages, for the developer and the client.
 * Using MD5 to hash passwords. Not good enough for real life, but it's built into Postgres and requires zero config, so it's a good fit for quick iteration.
 * Accounts don't have to validate an email address or anything. You just post a name and password, and boom.
 * As is, there is no real benefit to having tokens in their own table. I was imagining this whole workflow for creating and revoking tokens for an account, but I decided it would be too much of a time sink to build.
 * Tests actually run against the "prod" database (or... whichever database Express connects to), which is pretty scary. Sorry to any real-world users called "foo"!
+* CSS is all in one big file, and I'm not using any sort of naming convention like BEM. This is manageable for now, but this app would grow out of that (lack of) approach very soon.
+* The front end app isn't factored particularly well. I feel like the lifecycle of an account/token is kind of sprinkled all over the place and is hard to reason about.
 
 ### Stretch goals attempted
 If applicable, use this area to tell us what stretch goals you attempted. What went well? What do you wish you could have done better? If you didn't attempt any of the stretch goals, feel free to let us know why.
+
+#### ✓ Build a simple UI for the service
+
+I thought it would be fun to build a "dashboard view" of all of the cities that you're interested in the weather for. You could use the API to get the weather reports, and to persist your list. But the fun isn't over: You can also use the browser's built-in speech synthesis engine to read a report (or all of the reports, in order) out loud to you, while you're scrambling some eggs or something.
+
+I built it in React, so I was able to move pretty quickly, but I think I under-designed a little bit and I'm not totally happy with my encapsulation boundaries. If I were to put a few more hours into it, I would probably centralize the account/token management into a custom hook and export actions for the app to manipulate it.
+
+#### ✓ Add authentication to the service
+
+I created a basic account system that uses tokens for authentication. The tokens are just UUIDs, and they are associated with accounts but are not attributes of accounts. The idea was that one account could create multiple tokens to use in different apps, and revoke them as needed. I didn't build that part, but the system extends straightforwardly to support that.
+
+While I was designing, I thought "well, authenticating needs to actually _do_ something." I suppose the obvious thing would have been to just prevent the weather endpoint from being used by an unauthenticated user, but that seems kind of draconian to the hypothetical people who might use this one day. Instead, I thought that an unauthenticated user should still be able to use the API, but if you authenticate, you'll be able to persist a list of cities to bring up later.
+
+This part was more of a time sink than I expected, especially getting the database set up, but I think it went fairly smoothly. Writing unit tests as I was building saved me lots of time and bugs, and so I'm glad I took the time to do that, even though it slowed my roll.
+
+#### ✓ Deploy your API and include the link in your README(...)
+
+Man, deploying to Heroku was fiddly.
+
+#### ✓ Proxy a real weather API via your service to fetch the actual weather
+
+Definitely the easiest part-- This took barely any time at all. Open Weather Map is very straightforward to use, and this part came together very quickly. Their data comes back in a format that doesn't totally make sense to me, but it isn't hard to cope with.
+
 ### Instructions to run assignment locally
 If applicable, please provide us with the necessary instructions to run your solution.
 ### What did you not include in your solution that you want us to know about?
