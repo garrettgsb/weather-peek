@@ -4,6 +4,8 @@ A simple, conversationally-toned, conclusion-oriented weather API.
 
 Try it live at [https://weather-peek-gsb.herokuapp.com](https://weather-peek-gsb.herokuapp.com)
 
+If you are not viewing this README on GitHub, you might find it easier to [head over there to view it](https://github.com/garrettgsb/weather-peek)
+
 # Table of Contents
 
 * [Usage](#usage)
