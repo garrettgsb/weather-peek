@@ -1,15 +1,15 @@
 import React from 'react';
 import { say } from '../utils.js';
 
-const citySummary = city => {
-  const { city: name, condition, expect, temperature, cloudy, windy } = city;
+const citySummary = (city, includeCondition=false) => {
+  const { city: name, expect, temperature, cloudy, windy } = city;
   return `Expect ${expect} in ${name}. It's ${temperature} outside, ${cloudy} cloudy, and ${windy} windy.`;
 }
 
 const CitiesList = ({ cities, removeCity }) => (
   <section className='cities-list-container'>
     <header>
-      {!!cities.length && <button onClick={() => cities.forEach(city => say(citySummary(city)))}>Audio (All)</button>}
+      {!!cities.length && <button onClick={() => cities.forEach(city => say(citySummary(city, true)))}>Audio (All)</button>}
     </header>
     <main className='cities-list'>
       { cities.map((city, index) => {
